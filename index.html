@@ -1,3 +1,542 @@
-<h1>Hello Word</h1>
-<hr>                                                      </hr>
-<p>这是一个测试页面</p>
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Siêu Phẩm Chúc Tết Lớp 10A5 - 2026</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Orbitron:wght@900&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* --- RESET & BASIC SETUP --- */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #02001c;
+        background: radial-gradient(circle at center, #1a0014 0%, #000000 100%);
+        overflow: hidden;
+        height: 100vh;
+        font-family: "Pacifico", cursive;
+        color: #fff;
+        perspective: 1000px;
+      }
+
+      /* --- CANVAS --- */
+      #canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      /* --- CÂU ĐỐI ĐỎ (Đã chỉnh vị trí lên cao) --- */
+      .couplet {
+        position: absolute;
+        top: 2%; /* Đưa lên sát mép trên để không bị che chữ dưới */
+        width: 60px; /* Thu nhỏ bề ngang một chút cho thanh thoát */
+        padding: 15px 5px;
+        background: #b30000;
+        border: 2px solid #ffd700;
+        border-radius: 5px;
+        color: #ffd700;
+        font-family: "Dancing Script", cursive;
+        font-size: 1.8rem; /* Giảm size chữ 1 xíu cho vừa vặn màn hình laptop */
+        text-align: center;
+        line-height: 1.2;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+        z-index: 10;
+        text-shadow: 1px 1px 0 #000;
+        transform-origin: top center;
+        animation: windSwing 3s infinite ease-in-out alternate;
+      }
+
+      .couplet span {
+        display: block;
+        margin-bottom: 8px; /* Giảm khoảng cách giữa các chữ */
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        font-weight: bold;
+      }
+
+      .left-couplet {
+        left: 3%;
+        animation-delay: 0s;
+      }
+      .right-couplet {
+        right: 3%;
+        animation-delay: 1.5s;
+      }
+
+      /* Trang trí đuôi câu đối */
+      .couplet::after {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        border-top: 20px solid #b30000;
+      }
+
+      /* --- MAIN CONTAINER --- */
+      .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        padding: 30px 50px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow:
+          0 0 40px rgba(0, 0, 0, 0.5),
+          inset 0 0 20px rgba(255, 215, 0, 0.1);
+        animation: floatContainer 6s ease-in-out infinite;
+        width: 80%;
+        max-width: 800px;
+      }
+
+      /* --- LOGO LỚP 10A5 --- */
+      .class-name {
+        font-family: "Orbitron", sans-serif;
+        font-size: 120px; /* Tăng kích thước chữ 10A5 */
+        margin: 10px 0;
+        background: linear-gradient(
+          to bottom,
+          #ffffb3,
+          #ffcc00,
+          #ff9900,
+          #b35900
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+        position: relative;
+        animation: textGlow 2s infinite alternate;
+      }
+
+      .year-tag {
+        font-family: "Dancing Script", cursive;
+        color: #ff6666;
+        font-size: 3rem;
+        margin-bottom: 0px;
+        text-shadow: 0 0 10px #ff0000;
+        animation: fadeIn 2s ease-out;
+      }
+
+      /* --- TYPEWRITER MESSAGE --- */
+      .message-box {
+        margin-top: 20px;
+        font-size: 1.8rem;
+        color: #fff;
+        min-height: 60px;
+        text-shadow: 0 2px 4px #000;
+        font-family: "Dancing Script", cursive;
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 3px;
+        height: 1.5rem;
+        background-color: #ffd700;
+        animation: blink 1s infinite;
+        vertical-align: text-bottom;
+      }
+
+      /* --- ANIMATIONS KEYFRAMES --- */
+      @keyframes windSwing {
+        0% {
+          transform: rotate(2deg);
+        }
+        100% {
+          transform: rotate(-2deg);
+        }
+      }
+
+      @keyframes floatContainer {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) translateY(0);
+        }
+        50% {
+          transform: translate(-50%, -50%) translateY(-15px);
+        }
+      }
+
+      @keyframes textGlow {
+        from {
+          filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+        to {
+          filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1));
+          transform: scale(1.02);
+        }
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .couplet {
+          display: none;
+        } /* Ẩn câu đối trên điện thoại */
+        .class-name {
+          font-size: 4rem;
+        }
+        .container {
+          width: 95%;
+          padding: 15px;
+        }
+        .message-box {
+          font-size: 1.2rem;
+        }
+        .year-tag {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Canvas -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Câu đối bên trái (Đã chỉnh lên cao) -->
+    <div class="couplet left-couplet">
+      <span>Tết</span>
+      <span>Đến</span>
+      <span>Trăm</span>
+      <span>Điều</span>
+      <span>Như</span>
+      <span>Ý</span>
+    </div>
+
+    <!-- Câu đối bên phải (Đã chỉnh lên cao) -->
+    <div class="couplet right-couplet">
+      <span>Xuân</span>
+      <span>Sang</span>
+      <span>Vạn</span>
+      <span>Sự</span>
+      <span>Thành</span>
+      <span>Công</span>
+    </div>
+
+    <!-- Nội dung chính -->
+    <div class="container">
+      <div class="year-tag">Happy New Year 2026</div>
+      <h1 class="class-name">10A5</h1>
+      <div class="message-box">
+        <span id="typing-text"></span><span class="cursor"></span>
+      </div>
+    </div>
+
+    <script>
+      /**
+       * SETUP CANVAS
+       */
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      let w, h;
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      /**
+       * UTILS & CONFIG
+       */
+      const random = (min, max) => Math.random() * (max - min) + min;
+      // Màu sắc rực rỡ hơn
+      const colors = [
+        "#ff0000",
+        "#ffa500",
+        "#ffff00",
+        "#00ff00",
+        "#00ffff",
+        "#0040ff",
+        "#ff00ff",
+        "#ffffff",
+        "#ff9999",
+      ];
+
+      /**
+       * CLASS: FLOWER
+       */
+      class Flower {
+        constructor() {
+          this.init();
+        }
+
+        init() {
+          this.x = Math.random() * w;
+          this.y = -20;
+          this.size = Math.random() * 8 + 4;
+          this.speedY = Math.random() * 2 + 0.5;
+          this.speedX = Math.random() * 2 - 1;
+          this.rotation = Math.random() * 360;
+          this.rotationSpeed = Math.random() * 2 - 1;
+          this.type = Math.random() > 0.5 ? "peach" : "ochna";
+        }
+
+        draw() {
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate((this.rotation * Math.PI) / 180);
+
+          // Màu sắc tươi hơn
+          if (this.type === "peach")
+            ctx.fillStyle = "#ff99b3"; // Hồng đào
+          else ctx.fillStyle = "#ffeb3b"; // Vàng mai
+
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.bezierCurveTo(
+            this.size / 2,
+            -this.size / 2,
+            this.size,
+            -this.size / 2,
+            0,
+            -this.size,
+          );
+          ctx.bezierCurveTo(
+            -this.size,
+            -this.size / 2,
+            -this.size / 2,
+            -this.size / 2,
+            0,
+            0,
+          );
+          ctx.fill();
+          ctx.restore();
+        }
+
+        update() {
+          this.y += this.speedY;
+          this.x += Math.sin(this.y * 0.01) + this.speedX;
+          this.rotation += this.rotationSpeed;
+          if (this.y > h) this.init();
+        }
+      }
+
+      /**
+       * CLASS: FIREWORK
+       */
+      class Particle {
+        constructor(x, y, color) {
+          this.x = x;
+          this.y = y;
+          this.color = color;
+          const velocity = random(2, 9);
+          const angle = random(0, Math.PI * 2);
+          this.vx = Math.cos(angle) * velocity;
+          this.vy = Math.sin(angle) * velocity;
+          this.friction = 0.95;
+          this.gravity = 0.06;
+          this.alpha = 1;
+          this.decay = random(0.008, 0.02);
+        }
+
+        update() {
+          this.vx *= this.friction;
+          this.vy *= this.friction;
+          this.vy += this.gravity;
+          this.x += this.vx;
+          this.y += this.vy;
+          this.alpha -= this.decay;
+        }
+
+        draw() {
+          ctx.save();
+          ctx.globalAlpha = this.alpha;
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2); // Hạt to hơn xíu
+          ctx.fill();
+          ctx.shadowBlur = 15; // Phát sáng mạnh hơn
+          ctx.shadowColor = this.color;
+          ctx.restore();
+        }
+      }
+
+      class Firework {
+        constructor(tx, ty) {
+          this.x = w / 2;
+          this.y = h;
+          this.tx = tx || random(100, w - 100);
+          this.ty = ty || random(50, h / 2);
+          this.color = colors[Math.floor(random(0, colors.length))];
+          this.speed = 16; // Bắn nhanh hơn
+          const angle = Math.atan2(this.ty - this.y, this.tx - this.x);
+          this.vx = Math.cos(angle) * this.speed;
+          this.vy = Math.sin(angle) * this.speed;
+          this.exploded = false;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.vy += 0.15;
+
+          const dist = Math.hypot(this.tx - this.x, this.ty - this.y);
+          if (dist < 20 || this.vy >= 0) {
+            this.exploded = true;
+            this.explode();
+          }
+        }
+
+        draw() {
+          if (this.exploded) return;
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Đuôi tên lửa
+          ctx.fillStyle = "rgba(255,255,255,0.5)";
+          ctx.beginPath();
+          ctx.arc(
+            this.x - this.vx / 2,
+            this.y - this.vy / 2,
+            2,
+            0,
+            Math.PI * 2,
+          );
+          ctx.fill();
+        }
+
+        explode() {
+          for (let i = 0; i < 120; i++) {
+            // Nhiều hạt hơn
+            particles.push(new Particle(this.x, this.y, this.color));
+          }
+          // Flash nhẹ màn hình
+          ctx.fillStyle = `rgba(255, 255, 255, 0.15)`;
+          ctx.fillRect(0, 0, w, h);
+        }
+      }
+
+      /**
+       * LOGIC
+       */
+      let flowers = [];
+      let fireworks = [];
+      let particles = [];
+
+      for (let i = 0; i < 50; i++) flowers.push(new Flower());
+
+      function animate() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.25)"; // Đuôi mờ nhanh hơn để hình rõ nét
+        ctx.fillRect(0, 0, w, h);
+
+        flowers.forEach((f) => {
+          f.draw();
+          f.update();
+        });
+
+        if (Math.random() < 0.04) {
+          // Tăng tỉ lệ bắn pháo hoa
+          fireworks.push(new Firework());
+        }
+
+        fireworks.forEach((fw, index) => {
+          fw.draw();
+          fw.update();
+          if (fw.exploded) fireworks.splice(index, 1);
+        });
+
+        particles.forEach((p, index) => {
+          p.draw();
+          p.update();
+          if (p.alpha <= 0) particles.splice(index, 1);
+        });
+
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      window.addEventListener("click", (e) => {
+        // Click bắn chùm 5 quả cực đẹp
+        fireworks.push(new Firework(e.clientX, e.clientY));
+        fireworks.push(new Firework(e.clientX - 50, e.clientY + 50));
+        fireworks.push(new Firework(e.clientX + 50, e.clientY + 50));
+        fireworks.push(new Firework(e.clientX - 100, e.clientY + 100));
+        fireworks.push(new Firework(e.clientX + 100, e.clientY + 100));
+      });
+
+      /**
+       * TYPING TEXT - NỘI DUNG 2026
+       */
+      const textElement = document.getElementById("typing-text");
+      const messages = [
+        "Chúc Cô trò lớp 10A5 năm mới đại thắng! ",
+        "Xuân Bính Ngọ 2026 - Vạn sự như ý! ",
+        "Học tập chăm chỉ - Lì xì tiền tỉ! ",
+        "10A5 - Mãi mãi một tình yêu! ",
+      ];
+
+      let msgIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      let typeSpeed = 100;
+
+      function typeWriter() {
+        const currentMsg = messages[msgIndex];
+
+        if (isDeleting) {
+          textElement.innerText = currentMsg.substring(0, charIndex - 1);
+          charIndex--;
+          typeSpeed = 50;
+        } else {
+          textElement.innerText = currentMsg.substring(0, charIndex + 1);
+          charIndex++;
+          typeSpeed = 100;
+        }
+
+        if (!isDeleting && charIndex === currentMsg.length) {
+          isDeleting = true;
+          typeSpeed = 2000;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          msgIndex = (msgIndex + 1) % messages.length;
+          typeSpeed = 500;
+        }
+
+        setTimeout(typeWriter, typeSpeed);
+      }
+      setTimeout(typeWriter, 1000);
+    </script>
+  </body>
+</html>
